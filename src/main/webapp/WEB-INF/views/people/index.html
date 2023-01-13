@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:ch="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>All people</title>
 </head>
 <body>
+
+<form th:method="DELETE" th:action="@{/people}">
+    <input type="submit" value="Delete All">
+</form>
 
 <div th:each = "person : ${people}">
   <a th:href="@{/people/{id}(id=${person.getId()})}" th:text = "${person.getName()}">user</a>

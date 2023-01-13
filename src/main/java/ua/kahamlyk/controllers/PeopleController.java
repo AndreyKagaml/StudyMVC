@@ -71,4 +71,10 @@ public class PeopleController {
 
         return "redirect:/people";
     }
+
+    @DeleteMapping()
+    public String deleteAll(){
+        peopleDAO.deleteAll();
+        return "redirect:/people";
+    }
 }
