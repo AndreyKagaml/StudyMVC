@@ -11,6 +11,8 @@
 <br/>
 <a th:text="${person.getEmail()}">VALUE</a>
 <br/>
+<a th:text="${person.getAddress()}">VALUE</a>
+<br/>
 <a th:href="@{/people/{id}/edit(id=${person.getId()})}">Edit</a>
 <br/>
 <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}" >

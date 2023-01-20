@@ -108,8 +108,8 @@ public class PeopleDAO {
     }
 
     public void save(Person person) throws SQLException{
-         jdbcTemplate.update("INSERT INTO Person(name, age, email) VALUES (?, ?, ?)",
-                person.getName(), person.getAge(), person.getEmail());
+         jdbcTemplate.update("INSERT INTO Person(name, age, email, address) VALUES (?, ?, ?, ?)",
+                person.getName(), person.getAge(), person.getEmail(), person.getAddress());
 
 //        PreparedStatement preparedStatement =
 //                connection.prepareStatement("INSERT INTO Person VALUES (1, ?,?,?)");
@@ -122,8 +122,8 @@ public class PeopleDAO {
     }
 
     public void update(int id, Person person){
-        jdbcTemplate.update("UPDATE Person SET name=?, age=?, email=? WHERE id=?",
-                person.getName(), person.getAge(), person.getEmail(), id);
+        jdbcTemplate.update("UPDATE Person SET name=?, age=?, email=?, address=? WHERE id=?",
+                person.getName(), person.getAge(), person.getEmail(), person.getAddress(), id);
 
 //        try{
 //            PreparedStatement preparedStatement =
@@ -177,7 +177,7 @@ public class PeopleDAO {
         List<Person> people = create1000People();
         long before = System.currentTimeMillis();
 
-        jdbcTemplate.batchUpdate("INSERT INTO Person VALUES(?, ?, ?, ?)",
+        jdbcTemplate.batchUpdate("INSERT INTO Person VALUES(?, ?, ?, ?, ?)",
                 new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
@@ -185,6 +185,7 @@ public class PeopleDAO {
                         preparedStatement.setString(2, people.get(i).getName());
                         preparedStatement.setInt(3, people.get(i).getAge());
                         preparedStatement.setString(4, people.get(i).getEmail());
+                        preparedStatement.setString(5, people.get(i).getAddress());
                     }
 
                     @Override
@@ -200,7 +201,7 @@ public class PeopleDAO {
         List<Person> people = new ArrayList<>();
 
         for(int i = 0; i < 1000; i++){
-            people.add(new Person(i, "Name"+i, new Random().nextInt(90), "user" + i + "@gmail.com"));
+            people.add(new Person(i, "Name"+i, new Random().nextInt(90), "user" + i + "@gmail.com", "address"+ i));
         }
         return people;
     }
