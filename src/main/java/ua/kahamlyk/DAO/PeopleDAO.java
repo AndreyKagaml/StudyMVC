@@ -1,7 +1,9 @@
 package ua.kahamlyk.DAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.ArgumentPreparedStatementSetter;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ua.kahamlyk.models.Person;
@@ -9,6 +11,7 @@ import ua.kahamlyk.models.Person;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Component
@@ -67,6 +70,11 @@ public class PeopleDAO {
 //        return people;
     }
 
+    public Optional<Person> show(String email){
+        return jdbcTemplate.query("SELECT * FROM Person WHERE email=?", new Object[]{email},
+                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+    }
+
     public Person show(int id){
         /**
          you can use BeanPropertyRowMapper<>(Person.class) instead of PersonMapper(),
@@ -100,7 +108,7 @@ public class PeopleDAO {
     }
 
     public void save(Person person) throws SQLException{
-         jdbcTemplate.update("INSERT INTO Person VALUES (1, ?, ?, ?)",
+         jdbcTemplate.update("INSERT INTO Person(name, age, email) VALUES (?, ?, ?)",
                 person.getName(), person.getAge(), person.getEmail());
 
 //        PreparedStatement preparedStatement =
